@@ -409,6 +409,15 @@ impl Player {
         cs2.process.read(data_address + (length - 1) * 12)
     }
 
+    pub fn total_hits(&self, cs2: &CS2) -> i32 {
+        let bullet_services: u64 = cs2.process.read(self.pawn + cs2.offsets.pawn.bullet_services);
+        if bullet_services == 0 {
+            return 0;
+        }
+        let total_hits: i32 = cs2.process.read(bullet_services + cs2.offsets.bullet_services.total_hits);
+        return total_hits;
+    }
+
     pub fn has_defuser(&self, cs2: &CS2) -> bool {
         let item_services: u64 = cs2.process.read(self.pawn + cs2.offsets.pawn.item_services);
         if item_services == 0 {

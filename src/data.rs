@@ -46,6 +46,7 @@ pub struct PlayerData {
     pub name: String,
     pub weapon: Weapon,
     pub ammo: (i32, i32),
+    pub total_hits: i32,
     pub bones: HashMap<Bones, Vec3>,
     pub has_defuser: bool,
     pub has_helmet: bool,
