@@ -169,6 +169,7 @@ impl CS2 {
         offsets.pawn.weapon_services = client.get("C_BasePlayerPawn", "m_pWeaponServices")?;
         offsets.pawn.observer_services = client.get("C_BasePlayerPawn", "m_pObserverServices")?;
         offsets.pawn.aim_punch_services = client.get("C_CSPlayerPawn", "m_pAimPunchServices")?;
+        offsets.pawn.bullet_services = client.get("C_CSPlayerPawn", "m_pBulletServices")?;
 
         offsets.game_scene_node.dormant = client.get("CGameSceneNode", "m_bDormant")?;
         offsets.game_scene_node.origin = client.get("CGameSceneNode", "m_vecAbsOrigin")?;
@@ -213,6 +214,9 @@ impl CS2 {
 
         offsets.aim_punch_services.aim_punch_cache =
             client.get("CCSPlayer_AimPunchServices", "m_unpredictableBaseTick")? - 0x18;
+
+        offsets.bullet_services.total_hits =
+            client.get("CCSPlayer_BulletServices", "m_totalHitsOnServer")?;
 
         offsets.weapon.attribute_manager = client.get("C_EconEntity", "m_AttributeManager")?;
         offsets.weapon.item = client.get("C_AttributeContainer", "m_Item")?;

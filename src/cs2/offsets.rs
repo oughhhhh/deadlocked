@@ -69,6 +69,7 @@ pub struct PawnOffsets {
     pub weapon_services: u64,     // Pointer -> WeaponSercies (m_pWeaponServices)
     pub observer_services: u64,   // Pointer -> ObserverServices (m_pObserverServices)
     pub aim_punch_services: u64,  // Pointer -> AimPunchServices (m_pAimPunchServices)
+    pub bullet_services: u64,     // Pointer -> BulletServices (m_pBulletServices)
 }
 
 #[derive(Debug, Default)]
@@ -135,9 +136,15 @@ pub struct ObserverServicesOffsets {
 }
 
 #[derive(Debug, Default)]
-pub struct AimPunchSerciesOffsets {
+pub struct AimPunchServicesOffsets {
     pub aim_punch_cache: u64, // Vec<Vec3> (m_unpredictableBaseTick - 0x18)
 }
+
+#[derive(Debug, Default)]
+pub struct BulletServicesOffsets {
+    pub total_hits: u64, // int32 (m_totalHitsOnServer)
+}
+
 
 #[derive(Debug, Default)]
 pub struct WeaponOffsets {
@@ -186,7 +193,8 @@ pub struct Offsets {
     pub item_services: ItemServicesOffsets,
     pub weapon_services: WeaponServicesOffsets,
     pub observer_services: ObserverServicesOffsets,
-    pub aim_punch_services: AimPunchSerciesOffsets,
+    pub aim_punch_services: AimPunchServicesOffsets,
+    pub bullet_services: BulletServicesOffsets,
     pub weapon: WeaponOffsets,
     pub econ_item_view: EconItemViewOffsets,
     pub planted_c4: PlantedC4Offsets,
