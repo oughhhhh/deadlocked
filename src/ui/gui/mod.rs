@@ -12,6 +12,7 @@ mod application;
 mod config;
 mod grenade;
 mod helpers;
+mod hitmarks;
 mod hud;
 mod player;
 mod r#unsafe;
@@ -22,6 +23,7 @@ pub enum Tab {
     Player,
     Hud,
     Grenades,
+    Hitmarks,
     Unsafe,
     Config,
     Application,
@@ -52,6 +54,7 @@ impl App {
                 ui.selectable_value(&mut self.current_tab, Tab::Player, "\u{f0013} Player");
                 ui.selectable_value(&mut self.current_tab, Tab::Hud, "\u{f0379} Hud");
                 ui.selectable_value(&mut self.current_tab, Tab::Grenades, "\u{f0691} Grenades");
+                ui.selectable_value(&mut self.current_tab, Tab::Hitmarks, "\u{f01a4} Hitmarks");
                 ui.selectable_value(&mut self.current_tab, Tab::Unsafe, "\u{f0ce6} Unsafe");
                 ui.selectable_value(&mut self.current_tab, Tab::Config, "\u{f168b} Config");
                 ui.selectable_value(
@@ -85,6 +88,7 @@ impl App {
             Tab::Player => self.player_settings(ui),
             Tab::Hud => self.hud_settings(ui),
             Tab::Grenades => self.grenade_settings(ui),
+            Tab::Hitmarks => self.hitmarks_settings(ui),
             Tab::Unsafe => self.unsafe_settings(ui),
             Tab::Config => self.config_settings(ui),
             Tab::Application => self.application_settings(ui),

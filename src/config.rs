@@ -60,6 +60,7 @@ pub struct Config {
     pub player: PlayerConfig,
     pub hud: HudConfig,
     pub misc: UnsafeConfig,
+    pub hitmarks: HitmarksConfig,
     pub accent_color: Color32,
     pub fps: u32,
 }
@@ -71,6 +72,7 @@ impl Default for Config {
             player: PlayerConfig::default(),
             hud: HudConfig::default(),
             misc: UnsafeConfig::default(),
+            hitmarks: HitmarksConfig::default(),
             accent_color: Colors::BLUE,
             fps: 120,
         }
@@ -387,6 +389,32 @@ impl Default for UnsafeConfig {
             no_smoke: false,
             change_smoke_color: false,
             smoke_color: Color32::RED,
+        }
+    }
+}
+
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+#[serde(default)]
+pub struct HitmarksConfig {
+    pub color: Color32,
+    pub fadeout_duration: f32,
+    pub gap: f32,
+    pub size: f32,
+    pub hitsound_track: i32,
+    pub hitmark_enabled: bool,
+    pub hitsound_enabled: bool,
+}
+
+impl Default for HitmarksConfig {
+    fn default() -> Self {
+        Self {
+            color: Color32::WHITE,
+            fadeout_duration: 0.25,
+            gap: 2.0,
+            size: 10.0,
+            hitsound_track: 1,
+            hitmark_enabled: false,
+            hitsound_enabled: false,
         }
     }
 }

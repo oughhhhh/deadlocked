@@ -24,6 +24,7 @@ use crate::{
     ui::{
         grenades::{Grenade, GrenadeList, read_grenades},
         gui::{Tab, aimbot::AimbotTab},
+        overlay::hitmarks::{HitmarkState, HitsoundPlayer},
         trail::Trail,
         window_context::WindowContext,
     },
@@ -42,6 +43,9 @@ pub struct App {
     pub display_scale: f32,
     pub trails: HashMap<u64, Trail>,
     pub player_sounds: HashMap<u64, (Instant, SoundType)>,
+
+    pub hitmark_state: HitmarkState,
+    pub hitsound_player: Option<HitsoundPlayer>,
 
     pub grenades: GrenadeList,
     pub new_grenade: Grenade,
@@ -93,6 +97,9 @@ impl App {
             display_scale: 1.0,
             trails: HashMap::new(),
             player_sounds: HashMap::new(),
+
+            hitmark_state: HitmarkState::default(),
+            hitsound_player: HitsoundPlayer::new(),
 
             grenades,
             new_grenade: Grenade::new(),

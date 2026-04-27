@@ -10,7 +10,7 @@ use crate::{
 };
 
 mod entity;
-mod hitmarks;
+pub mod hitmarks;
 mod hud;
 mod player;
 
