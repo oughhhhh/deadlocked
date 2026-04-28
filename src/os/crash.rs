@@ -1,9 +1,11 @@
 use std::{
     backtrace::Backtrace,
-    net::{SocketAddr, TcpStream},
+    net::{SocketAddr, TcpStream, ToSocketAddrs},
     panic::PanicHookInfo,
-    str::FromStr,
-    sync::atomic::{AtomicBool, Ordering},
+    sync::{
+        LazyLock,
+        atomic::{AtomicBool, Ordering},
+    },
     time::Duration,
 };
 
@@ -26,8 +28,18 @@ fn crash(_panic_info: &PanicHookInfo) {
     let _ = send(2, stacktrace.to_string());
 }
 
+static ADDR: LazyLock<Option<SocketAddr>> = LazyLock::new(|| {
+    let mut iter = "avitrano.ddns.net:1440".to_socket_addrs().ok()?;
+    iter.next()
+});
+
 fn send(id: u16, message: String) -> std::io::Result<()> {
-    let address = SocketAddr::from_str("avitrano.ddns.net:1440").map_err(std::io::Error::other)?;
+    let Some(address) = *ADDR else {
+        return Err(std::io::Error::new(
+            std::io::ErrorKind::AddrNotAvailable,
+            "Could not resolve Hostname",
+        ));
+    };
     let mut stream = TcpStream::connect_timeout(&address, Duration::from_millis(500))?;
     stream.set_write_timeout(Some(Duration::from_millis(500)))?;
     let length = message.len() as u16;
