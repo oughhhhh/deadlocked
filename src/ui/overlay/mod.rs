@@ -10,10 +10,9 @@ use crate::{
 };
 
 mod entity;
-mod hitmarks;
+pub mod hitmarks;
 mod hud;
 mod player;
-mod radar;
 
 impl App {
     fn aimbot_config(&self, weapon: &Weapon) -> &AimbotConfig {
@@ -35,8 +34,6 @@ impl App {
 
         self.update_window(data);
         self.overlay_debug(&painter, data);
-
-        self.draw_radar(&painter, data);
 
         for player in &data.players {
             if data.esp_active {

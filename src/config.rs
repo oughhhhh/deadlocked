@@ -59,8 +59,8 @@ pub struct Config {
     pub aim: AimConfig,
     pub player: PlayerConfig,
     pub hud: HudConfig,
-    pub radar: RadarConfig,
     pub misc: UnsafeConfig,
+    pub hitmarks: HitmarksConfig,
     pub accent_color: Color32,
     pub fps: u32,
 }
@@ -71,44 +71,10 @@ impl Default for Config {
             aim: AimConfig::default(),
             player: PlayerConfig::default(),
             hud: HudConfig::default(),
-            radar: RadarConfig::default(),
             misc: UnsafeConfig::default(),
+            hitmarks: HitmarksConfig::default(),
             accent_color: Colors::BLUE,
             fps: 120,
-        }
-    }
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(default)]
-pub struct RadarConfig {
-    pub enabled: bool,
-    pub size: f32,
-    pub zoom: f32,
-    pub margin_x: f32,
-    pub margin_y: f32,
-    pub dot_radius: f32,
-    pub distance_limit: f32,
-    pub cones: bool,
-    pub show_friendlies: bool,
-    pub background_alpha: u8,
-    pub border_alpha: u8,
-}
-
-impl Default for RadarConfig {
-    fn default() -> Self {
-        Self {
-            enabled: false,
-            size: 1.0,
-            zoom: 0.7,
-            margin_x: 16.0,
-            margin_y: 16.0,
-            dot_radius: 6.2,
-            distance_limit: 0.148,
-            cones: false,
-            show_friendlies: true,
-            background_alpha: 80,
-            border_alpha: 80,
         }
     }
 }
@@ -423,6 +389,32 @@ impl Default for UnsafeConfig {
             no_smoke: false,
             change_smoke_color: false,
             smoke_color: Color32::RED,
+        }
+    }
+}
+
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+#[serde(default)]
+pub struct HitmarksConfig {
+    pub color: Color32,
+    pub fadeout_duration: f32,
+    pub gap: f32,
+    pub size: f32,
+    pub hitsound_track: i32,
+    pub hitmark_enabled: bool,
+    pub hitsound_enabled: bool,
+}
+
+impl Default for HitmarksConfig {
+    fn default() -> Self {
+        Self {
+            color: Color32::WHITE,
+            fadeout_duration: 0.25,
+            gap: 2.0,
+            size: 10.0,
+            hitsound_track: 1,
+            hitmark_enabled: false,
+            hitsound_enabled: false,
         }
     }
 }
