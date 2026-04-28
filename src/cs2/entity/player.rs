@@ -410,11 +410,15 @@ impl Player {
     }
 
     pub fn total_hits(&self, cs2: &CS2) -> i32 {
-        let bullet_services: u64 = cs2.process.read(self.pawn + cs2.offsets.pawn.bullet_services);
+        let bullet_services: u64 = cs2
+            .process
+            .read(self.pawn + cs2.offsets.pawn.bullet_services);
         if bullet_services == 0 {
             return 0;
         }
-        let total_hits: i32 = cs2.process.read(bullet_services + cs2.offsets.bullet_services.total_hits);
+        let total_hits: i32 = cs2
+            .process
+            .read(bullet_services + cs2.offsets.bullet_services.total_hits);
         return total_hits;
     }
 
@@ -558,31 +562,6 @@ impl Player {
             Some(SoundType::Footstep)
         } else {
             None
-        }
-    }
-
-    pub fn no_flash(&self, cs2: &CS2, flash_alpha: f32) {
-        let flash_alpha = flash_alpha.clamp(0.0, 255.0);
-        let current_alpha: f32 = cs2.process.read(self.pawn + cs2.offsets.pawn.flash_alpha);
-        if current_alpha != flash_alpha {
-            cs2.process
-                .write(self.pawn + cs2.offsets.pawn.flash_alpha, flash_alpha);
-        }
-    }
-
-    pub fn set_fov(&self, cs2: &CS2, value: u32) {
-        let camera_service = cs2
-            .process
-            .read::<u64>(self.pawn + cs2.offsets.pawn.camera_services);
-        if camera_service == 0 {
-            return;
-        }
-        let current: u32 = cs2
-            .process
-            .read(camera_service + cs2.offsets.camera_services.fov);
-        if current != 0 && current != value {
-            cs2.process
-                .write(self.controller + cs2.offsets.controller.desired_fov, value);
         }
     }
 }

@@ -48,18 +48,12 @@ pub fn read_app_config() -> ApplicationConfig {
     config.unwrap_or_default()
 }
 
-pub fn write_app_config(config: &ApplicationConfig) {
-    let out = toml::to_string(&config).unwrap();
-    let _ = std::fs::write(APP_CONFIG_PATH.as_path(), out);
-}
-
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(default)]
 pub struct Config {
     pub aim: AimConfig,
     pub player: PlayerConfig,
     pub hud: HudConfig,
-    pub misc: UnsafeConfig,
     pub hitmarks: HitmarksConfig,
     pub accent_color: Color32,
     pub fps: u32,
@@ -71,7 +65,6 @@ impl Default for Config {
             aim: AimConfig::default(),
             player: PlayerConfig::default(),
             hud: HudConfig::default(),
-            misc: UnsafeConfig::default(),
             hitmarks: HitmarksConfig::default(),
             accent_color: Colors::BLUE,
             fps: 120,
@@ -363,32 +356,6 @@ impl Default for HudConfig {
             font_size: 16.0,
             icon_size: 20.0,
             debug: false,
-        }
-    }
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(default)]
-pub struct UnsafeConfig {
-    pub no_flash: bool,
-    pub max_flash_alpha: f32,
-    pub fov_changer: bool,
-    pub desired_fov: u32,
-    pub no_smoke: bool,
-    pub change_smoke_color: bool,
-    pub smoke_color: Color32,
-}
-
-impl Default for UnsafeConfig {
-    fn default() -> Self {
-        Self {
-            no_flash: false,
-            max_flash_alpha: 127.0,
-            fov_changer: false,
-            desired_fov: 90,
-            no_smoke: false,
-            change_smoke_color: false,
-            smoke_color: Color32::RED,
         }
     }
 }

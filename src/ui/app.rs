@@ -14,8 +14,8 @@ use winit::{
 
 use crate::{
     config::{
-        ApplicationConfig, CONFIG_PATH, Config, DEFAULT_CONFIG_NAME, available_configs,
-        parse_config, read_app_config, write_config,
+        CONFIG_PATH, Config, DEFAULT_CONFIG_NAME, available_configs, parse_config, read_app_config,
+        write_config,
     },
     cs2::entity::weapon::Weapon,
     data::{Data, SoundType},
@@ -51,7 +51,6 @@ pub struct App {
     pub new_grenade: Grenade,
     pub current_grenade: Option<(String, usize)>,
 
-    pub app_config: ApplicationConfig,
     pub config: Config,
     pub current_config: PathBuf,
     pub available_configs: Vec<PathBuf>,
@@ -87,7 +86,6 @@ impl App {
             channel,
             data,
 
-            app_config,
             config,
             current_config: CONFIG_PATH.join(DEFAULT_CONFIG_NAME),
             available_configs: available_configs(),

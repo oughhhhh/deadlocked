@@ -8,14 +8,12 @@ use crate::{
 
 mod about;
 pub mod aimbot;
-mod application;
 mod config;
 mod grenade;
 mod helpers;
 mod hitmarks;
 mod hud;
 mod player;
-mod r#unsafe;
 
 #[derive(PartialEq)]
 pub enum Tab {
@@ -24,9 +22,7 @@ pub enum Tab {
     Hud,
     Grenades,
     Hitmarks,
-    Unsafe,
     Config,
-    Application,
 }
 
 impl App {
@@ -55,13 +51,7 @@ impl App {
                 ui.selectable_value(&mut self.current_tab, Tab::Hud, "\u{f0379} Hud");
                 ui.selectable_value(&mut self.current_tab, Tab::Grenades, "\u{f0691} Grenades");
                 ui.selectable_value(&mut self.current_tab, Tab::Hitmarks, "\u{f01a4} Hitmarks");
-                ui.selectable_value(&mut self.current_tab, Tab::Unsafe, "\u{f0ce6} Unsafe");
                 ui.selectable_value(&mut self.current_tab, Tab::Config, "\u{f168b} Config");
-                ui.selectable_value(
-                    &mut self.current_tab,
-                    Tab::Application,
-                    "\u{f1577} Application",
-                );
 
                 ui.with_layout(egui::Layout::bottom_up(Align::Min), |ui| {
                     if ui.button("Report Issue").clicked() {
@@ -89,17 +79,11 @@ impl App {
             Tab::Hud => self.hud_settings(ui),
             Tab::Grenades => self.grenade_settings(ui),
             Tab::Hitmarks => self.hitmarks_settings(ui),
-            Tab::Unsafe => self.unsafe_settings(ui),
             Tab::Config => self.config_settings(ui),
-            Tab::Application => self.application_settings(ui),
         });
 
         if self.show_about {
             self.about(ui.ctx());
-        }
-
-        if self.app_config.first_launch {
-            self.stacktrace_popup(ui.ctx());
         }
     }
 
