@@ -14,6 +14,7 @@ mod helpers;
 mod hitmarks;
 mod hud;
 mod player;
+mod radar;
 
 #[derive(PartialEq)]
 pub enum Tab {
@@ -21,6 +22,7 @@ pub enum Tab {
     Player,
     Hud,
     Grenades,
+    Radar,
     Hitmarks,
     Config,
 }
@@ -50,16 +52,11 @@ impl App {
                 ui.selectable_value(&mut self.current_tab, Tab::Player, "\u{f0013} Player");
                 ui.selectable_value(&mut self.current_tab, Tab::Hud, "\u{f0379} Hud");
                 ui.selectable_value(&mut self.current_tab, Tab::Grenades, "\u{f0691} Grenades");
+                ui.selectable_value(&mut self.current_tab, Tab::Radar, "\u{f0437} Radar");
                 ui.selectable_value(&mut self.current_tab, Tab::Hitmarks, "\u{f01a4} Hitmarks");
                 ui.selectable_value(&mut self.current_tab, Tab::Config, "\u{f168b} Config");
 
                 ui.with_layout(egui::Layout::bottom_up(Align::Min), |ui| {
-                    if ui.button("Report Issue").clicked() {
-                        let _ = std::process::Command::new("xdg-open")
-                            .arg("https://github.com/avitran0/deadlocked/issues")
-                            .status();
-                    }
-
                     if ui.button("About").clicked() {
                         self.show_about = true;
                     }
@@ -78,6 +75,7 @@ impl App {
             Tab::Player => self.player_settings(ui),
             Tab::Hud => self.hud_settings(ui),
             Tab::Grenades => self.grenade_settings(ui),
+            Tab::Radar => self.radar_settings(ui),
             Tab::Hitmarks => self.hitmarks_settings(ui),
             Tab::Config => self.config_settings(ui),
         });

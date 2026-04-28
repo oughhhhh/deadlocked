@@ -54,6 +54,7 @@ pub struct Config {
     pub aim: AimConfig,
     pub player: PlayerConfig,
     pub hud: HudConfig,
+    pub radar: RadarConfig,
     pub hitmarks: HitmarksConfig,
     pub accent_color: Color32,
     pub fps: u32,
@@ -65,6 +66,7 @@ impl Default for Config {
             aim: AimConfig::default(),
             player: PlayerConfig::default(),
             hud: HudConfig::default(),
+            radar: RadarConfig::default(),
             hitmarks: HitmarksConfig::default(),
             accent_color: Colors::BLUE,
             fps: 120,
@@ -356,6 +358,40 @@ impl Default for HudConfig {
             font_size: 16.0,
             icon_size: 20.0,
             debug: false,
+        }
+    }
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(default)]
+pub struct RadarConfig {
+    pub enabled: bool,
+    pub size: f32,
+    pub zoom: f32,
+    pub margin_x: f32,
+    pub margin_y: f32,
+    pub dot_radius: f32,
+    pub distance_limit: f32,
+    pub cones: bool,
+    pub show_friendlies: bool,
+    pub background_alpha: u8,
+    pub border_alpha: u8,
+}
+
+impl Default for RadarConfig {
+    fn default() -> Self {
+        Self {
+            enabled: false,
+            size: 1.0,
+            zoom: 0.7,
+            margin_x: 16.0,
+            margin_y: 16.0,
+            dot_radius: 6.2,
+            distance_limit: 0.148,
+            cones: false,
+            show_friendlies: true,
+            background_alpha: 80,
+            border_alpha: 80,
         }
     }
 }
