@@ -40,6 +40,18 @@ impl App {
                     Align2::CENTER_CENTER,
                     None,
                 );
+                let fraction = (data.bomb.defuse_remain_time / 10.0).clamp(0.0, 1.0);
+                let color = Color32::BLUE;
+                painter.line(
+                    vec![
+                        pos2(0.0, data.window_size.y - self.config.hud.line_width * 3.0),
+                        pos2(
+                            data.window_size.x * fraction,
+                            data.window_size.y - self.config.hud.line_width * 3.0,
+                        ),
+                    ],
+                    Stroke::new(self.config.hud.line_width * 3.0, color),
+                );
             }
         }
 
