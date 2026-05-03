@@ -97,18 +97,24 @@ impl App {
             return;
         };
 
-        window
-            .window()
-            .set_outer_position(winit::dpi::PhysicalPosition::new(
-                data.window_position.x,
-                data.window_position.y,
-            ));
-        let _ = window
-            .window()
-            .request_inner_size(winit::dpi::PhysicalSize::new(
-                data.window_size.x.max(1.0),
-                data.window_size.y.max(1.0),
-            ));
+        let position = winit::dpi::PhysicalPosition::new(
+            data.window_position.x as i32,
+            data.window_position.y as i32,
+        );
+        if !match window.window().outer_position() {
+            Ok(pos) => pos == position,
+            Err(_) => false,
+        } {
+            window.window().set_outer_position(position);
+        }
+
+        let size = winit::dpi::PhysicalSize::new(
+            data.window_size.x.max(1.0) as u32,
+            data.window_size.y.max(1.0) as u32,
+        );
+        if window.window().inner_size() != size {
+            let _ = window.window().request_inner_size(size);
+        }
     }
 
     fn grenade_manager(&self, data: &Data, painter: &Painter) {
@@ -371,7 +377,7 @@ fn convex_hull(points: &[Vec3]) -> Vec<Vec3> {
         return points.to_vec();
     }
 
-    let mut sorted_points = points.to_vec();
+    let mut sorted_points: Vec<Vec3> = points.iter().filter(|p| !p.is_nan()).copied().collect();
     sorted_points.sort_by(|a, b| {
         a.x.partial_cmp(&b.x)
             .unwrap_or(std::cmp::Ordering::Equal)
